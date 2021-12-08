@@ -5,7 +5,7 @@
   "main": "bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && webpack --mode development",
+    "build": "rm -rf dist && webpack --mode development -w",
     "dev": "nodemon server/app.js"
   },
   "repository": {
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ErnestoOrtegaHernandez/JobTracker#readme",
   "dependencies": {
+    "axios": "^0.24.0",
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

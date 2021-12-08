@@ -12,3 +12,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
    res.sendFile('/');
 });
+app.get("/jobInfo", (req, res) => {
+   let dummy = {
+      dummyDataCheck: 'checkmate'
+   }
+   res.send(JSON.stringify(dummy));
+});

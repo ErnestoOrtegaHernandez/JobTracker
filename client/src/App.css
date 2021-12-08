@@ -1,3 +1,68 @@
-#initial {
+* {
+ margin: 0;
+ padding:0;
+}
+#container {
+  background-color: white;
+  width: 80%;
+  height:100vh;
+  text-align: center;
+  margin:auto;
+  overflow: auto;
+}
+#quote{
+  height: 30%;
   background-color: blue;
+}
+#quote-text{
+  padding-top: 3em;
+  color: white;
+  font-size: 1.5em;
+}
+
+#summary-header{
+  text-align: left;
+  margin:1em;
+}
+#summary-metric-label{
+  display:inline-block;
+}
+
+table {
+  border-spacing: 1em;
+  font-size: 1em;
+}
+#application-list{
+  text-align: left;
+}
+#application-header{
+  margin: 1em;
+  text-align: left;
+}
+.app-instance{
+  margin: 2em;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+.app-banner{
+  margin-top: 2em;
+  width: 10%;
+  height: 2em;
+  background-color: orange;
+  margin-left: 1em;
+}
+td, th{
+  padding-left: 1em;
+}
+.show-more{
+  margin-top:2em;
+  margin-left: 2em;
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }
