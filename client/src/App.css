@@ -2,22 +2,26 @@
  margin: 0;
  padding:0;
 }
+body {
+  overflow: auto;
+}
 #container {
   background-color: white;
   width: 80%;
-  height:100vh;
+  height:auto;
   text-align: center;
   margin:auto;
-  overflow: auto;
+  padding-bottom: 4em;
 }
 #quote{
   height: 30%;
-  background-color: blue;
+  background-color: rgb(19, 19, 187);
 }
 #quote-text{
-  padding-top: 3em;
+  padding-top: 2em;
   color: white;
   font-size: 1.5em;
+  padding-bottom: 2em;
 }
 
 #summary-header{
@@ -35,8 +39,15 @@ table {
 #application-list{
   text-align: left;
 }
+#add-app {
+  margin-right: 2em;
+  top: 50%;
+  font-size: 1.5em;
+}
+
 #application-header{
   margin: 1em;
+  display: inline-block;
   text-align: left;
 }
 .app-instance{
@@ -49,7 +60,6 @@ table {
   margin-top: 2em;
   width: 10%;
   height: 2em;
-  background-color: orange;
   margin-left: 1em;
 }
 td, th{
@@ -65,4 +75,13 @@ td, th{
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+}
+form, label {
+  margin: 2em;
+}
+#appSubmission, textarea {
+  margin-left:2em;
+}
+#new-entry{
+  margin-bottom: 4em;
 }
