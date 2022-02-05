@@ -221,7 +221,7 @@ class App extends React.Component {
                 this.state.listOfJobs.map((item)=>{
                   return (<>
                             <JobAppInfo jobInfo = {item}/>
-                            <button>Edit</button>
+                            <button>Edit </button>
                           </>);
                 }) : undefined
               }
