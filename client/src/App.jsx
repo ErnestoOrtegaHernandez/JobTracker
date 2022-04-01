@@ -37,11 +37,18 @@ class App extends React.Component {
         referral: false,
         salary: null,
         user_id: 1
+      },
+      choices: {
+        A: '',
+        B: '',
+        C: ''
       }
     }
     this.handleAddApp = this.handleAddApp.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmission = this.handleFormSubmission.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
   }
 
   componentDidMount(){
@@ -74,6 +81,41 @@ class App extends React.Component {
         this.setState({listOfJobs: jobs.data.appInfo, jobSummary: jobs.data.summary, showNewApp: !this.state.showNewApp});
       });
     }).catch(err=>{console.log(err)});
+  }
+  handleFormSubmission(ev){
+    ev.preventDefault();
+    let canSubmit = false;
+    for(let key in this.state.choices) {
+      if(this.state.choices[key] == "calculus") {
+        canSubmit = true;
+      }
+    }
+    if(canSubmit) {
+      fetch('/addJob', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(this.state.choices)
+      })
+      .then(res=>console.log('success'))
+      .catch(err=>{
+        console.log('error');
+        return err;
+      })
+    } else {
+      return 'Calculus required'
+    }
+  }
+  handleFormChange(ev) {
+    console.log(this.state.choices);
+    const oldState = this.state.choices
+    const newState = oldState;
+    const val = ev.target.value;
+    newState[ev.target.name] = val.toLowerCase();
+    this.setState({choices: newState})
+    console.log(this.state.choices)
+
   }
   handleChange(ev){ // could be refactored into using a loop. this should be sufficient for now.
     const oldState = this.state.formInfo;
@@ -112,7 +154,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(quotes, 'quotes')
+    // console.log(quotes, 'quotes')
     return (
        <div id = "container">
          <div id= "quote">
@@ -146,7 +188,22 @@ class App extends React.Component {
             </div>
             {this.state.showNewApp ?
             <div id = 'new-entry'>
-              <form onSubmit= {this.handleSubmit}>
+              <form onSubmit = {this.handleFormSubmission}>
+                <label>
+                  Choice A: <input type ="text" name = "A" onChange = {this.handleFormChange}/>
+                </label>
+                <br></br>
+                <label>
+                  Choice B: <input type ="text" name = "B" onChange = {this.handleFormChange}/>
+                </label>
+                <br></br>
+                <label>
+                  Choice C: <input type ="text" name = "C" onChange = {this.handleFormChange}/>
+                </label>
+                <br></br>
+                <button type = "submit"> Submit</button>
+              </form>
+              {/* <form onSubmit= {this.handleSubmit}>
                 <label>
                   Company Name:
                   <input type="text" name="company_name" onChange={this.handleChange}/>
@@ -213,7 +270,7 @@ class App extends React.Component {
                 </label>
                 <br></br>
                 <button type ="submit" value="Submit" id = "appSubmission">Submit</button>
-              </form>
+              </form> */}
             </div>
             :
             <div>

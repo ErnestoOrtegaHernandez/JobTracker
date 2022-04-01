@@ -4,7 +4,8 @@ const path = require("path");
 const port = process.env.PORT || 3000;
 const conf = require('../pgConf.js');
 const pgp = require('pg-promise')();
-const db = pgp('postgres://' + conf.username + ':'+ conf.password + '@localhost/' + conf.database);
+console.log(conf.linkToDB);
+const db = pgp(conf.linkToDB);
 const months = ['January, February, March, April, May, June, July, August, September, October, November, December'];
 
 
@@ -20,36 +21,64 @@ app.use(express.urlencoded());
 app.get("/", (req, res) => {
    res.sendFile('/');
 });
+
+let validate = (vals, check) => {
+   for(let key in vals) {
+      if(typeof vals[key] == "string") {
+         vals[key] = vals[key].toLowerCase();
+      }
+      if(vals[key] == check) {
+         return true
+      }
+   }
+   return false;
+}
 app.post("/addJob", (req, res) => {
    console.log(req.body, 'req.body' )
-   let job_posting_date = req.body.job_posting_date ? "'" + req.body.job_posting_date + "'" : null;
-   let job_contact_date = req.body.job_contact_date ? "'" + req.body.job_contact_date + "'" : null;
-   let phone_screen_date = req.body.phone_screen_date ? "'" + req.body.phone_screen_date + "'" : null;
-   let interview_dates = req.body.interview_dates ? "'" + req.body.interview_dates + "'" : null;
-   let offer_date = req.body.offer_date ? "'" + req.body.offer_date + "'" : null;
-   let denial_date = req.body.denial_date ? "'" + req.body.denial_date + "'" : null;
-   let last_follow_up_date = req.body.last_follow_up_date ? "'" + req.body.last_follow_up_date + "'" : null;
-   let date_applied = req.body.date_applied ? "'" + req.body.date_applied + "'" : null;
+   // let isValid = validate(req.body, 'calculus');
+   // let jsonChoices = JSON.stringify(req.body);
+   // if(isValid) {
+   //    db.any("INSERT INTO studentChoices () VALUES (" + jsonChoices + ")")
+   //    .then(results => {
+   //       console.log('success');
+   //       res.sendStatus(200);
+   //    })
+   //    .catch(err=>{
+   //       console.log(err);
+   //       res.sendStatus(500);
+   //    })
+   // } else {
+   //    res.send('hello')
+   // }
+   res.sendStatus(502);
+   // let job_posting_date = req.body.job_posting_date ? "'" + req.body.job_posting_date + "'" : null;
+   // let job_contact_date = req.body.job_contact_date ? "'" + req.body.job_contact_date + "'" : null;
+   // let phone_screen_date = req.body.phone_screen_date ? "'" + req.body.phone_screen_date + "'" : null;
+   // let interview_dates = req.body.interview_dates ? "'" + req.body.interview_dates + "'" : null;
+   // let offer_date = req.body.offer_date ? "'" + req.body.offer_date + "'" : null;
+   // let denial_date = req.body.denial_date ? "'" + req.body.denial_date + "'" : null;
+   // let last_follow_up_date = req.body.last_follow_up_date ? "'" + req.body.last_follow_up_date + "'" : null;
+   // let date_applied = req.body.date_applied ? "'" + req.body.date_applied + "'" : null;
 
-   db.any("INSERT INTO jobentries (user_id, job_name, company_name, job_url, job_rep, job_skills," +
-      "job_posting_date, job_contact_date, phone_screen_date, interview_dates, offer_date,denial_date, desire_level, referral," +
-      "salary, notes, app_status, last_follow_up_date, date_applied) VALUES (" + 1 + ", '" + req.body.job_name+"', '" + req.body.company_name+"', '" +
-      req.body.job_url +"', '" + req.body.job_rep+"','" + req.body.job_skills+"'," + job_posting_date+"," + job_contact_date+ "," +
-      phone_screen_date + ",'" + interview_dates+ "'," + offer_date+ "," + denial_date + "," + req.body.desire_level+ "," +
-      req.body.referral + "," +req.body.salary + ", '" + req.body.notes+ "', '" + req.body.app_status + "'," + last_follow_up_date + "," +
-      date_applied + ")")
-      .then(results => {
-         console.log('success');
-         res.sendStatus(200);
-      })
-      .catch(err=>{
-         console.log(err);
-         res.sendStatus(500);
-      })
+   // db.any("INSERT INTO jobentries (user_id, job_name, company_name, job_url, job_rep, job_skills," +
+   //    "job_posting_date, job_contact_date, phone_screen_date, interview_dates, offer_date,denial_date, desire_level, referral," +
+   //    "salary, notes, app_status, last_follow_up_date, date_applied) VALUES (" + 1 + ", '" + req.body.job_name+"', '" + req.body.company_name+"', '" +
+   //    req.body.job_url +"', '" + req.body.job_rep+"','" + req.body.job_skills+"'," + job_posting_date+"," + job_contact_date+ "," +
+   //    phone_screen_date + ",'" + interview_dates+ "'," + offer_date+ "," + denial_date + "," + req.body.desire_level+ "," +
+   //    req.body.referral + "," +req.body.salary + ", '" + req.body.notes+ "', '" + req.body.app_status + "'," + last_follow_up_date + "," +
+   //    date_applied + ")")
+   //    .then(results => {
+   //       console.log('success');
+   //       res.sendStatus(200);
+   //    })
+   //    .catch(err=>{
+   //       console.log(err);
+   //       res.sendStatus(500);
+   //    })
 });
 /*
 jobEntries(
-   id INTEGER NOT NULL PRIMARY KEY,
+   id SERIAL PRIMARY KEY,
    user_id INTEGER NOT NULL,
    job_name TEXT NOT NULL,
    company_name TEXT NOT NULL,
@@ -60,7 +89,7 @@ jobEntries(
    job_contact_date Date DEFAULT NULL,
    phone_screen_date DATE DEFAULT NULL,
    interview_dates JSON DEFAULT NULL,
-   offer_date DATE DEFAULT NULL,
+   offer_date DATE DEFAULT NULL,`
    denial_date DATE DEFAULT NULL,
    desire_level INTEGER NOT NULL,
    referral BOOLEAN NOT NULL,
